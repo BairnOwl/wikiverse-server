@@ -4,7 +4,12 @@ var app = express();
 var http = require('http');
 var server = http.createServer(app);
 
+var bodyParser = require('body-parser');
+
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 app.get('/wiki', function(request, response){
 	req = new XMLHttpRequest();
@@ -28,7 +33,7 @@ app.get('/wiki', function(request, response){
 app.get('/wiki/:title', function(request,response) {
 	req = new XMLHttpRequest();
 
-	var title = request.param.title; 
+	var title = request.params.title; 
 
 	//base url:
 	var base = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=links%7Cimages%7Cextracts&titles=';
@@ -39,11 +44,19 @@ app.get('/wiki/:title', function(request,response) {
 	req.addEventListener('load', function(e){
 		if (req.status == 200) {
 			var data = JSON.parse(req.responseText);
-			var title = data.title;
-			var links = data.links;
-			var text = data.extract;
-			var images = data.images;
-			response.json(title, links, text, images);
+			var pgID = Object.keys(data.query.pages)[0];
+			var imbed = data.query.pages[Object.keys(data.query.pages)[0]];
+			//console.log(data.query.pages[Object.keys(data.query.pages)[0]]);
+			var t = imbed.title;
+			var l = imbed.links;
+			var txt = imbed.extract;
+			var imgs = imbed.images;
+			console.log("TITLE:" + t);
+			//console.log("links: " + l);
+			console.log("Text: " + txt);
+			console.log("Images: " + imgs);
+			var result = {responseText: data, title: t, links: l, text: txt, images: imgs};
+			response.json(JSON.stringify(result));
 		}
 	}, false);
 
