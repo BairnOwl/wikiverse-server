@@ -51,11 +51,12 @@ app.get('/wiki/:title', function(request,response) {
 			var l = imbed.links;
 			var txt = imbed.extract;
 			var imgs = imbed.images;
-			console.log("TITLE:" + t);
+			//console.log("TITLE:" + t);
 			//console.log("links: " + l);
-			console.log("Text: " + txt);
-			console.log("Images: " + imgs);
-			var result = {responseText: data, title: t, links: l, text: txt, images: imgs};
+			//console.log("Text: " + txt);
+			//console.log("Images: " + imgs);
+			var result = {title: t, links: l, text: txt, images: imgs};
+			console.log(result);
 			response.json(JSON.stringify(result));
 		}
 	}, false);
