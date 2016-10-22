@@ -34,9 +34,11 @@ app.get('/wiki/:title', function(request,response) {
 
 	var title = request.params.title;
 
+///w/api.php?action=query&format=json&prop=links%7Cextracts%7Cimages&titles=Albert+Einstein&plnamespace=0&pllimit=500&exsentences=1&exintro=1&explaintext=1&exsectionformat=plain
+
 	//base url:
 	var base = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=links%7Cimages%7Cextracts&titles=';
-	url = base + title + '&pllimit=500&exintro=1&explaintext=1&exsectionformat=plain';
+	url = base + title + '&pllimit=500&exsentences=1&exintro=1&explaintext=1&exsectionformat=plain';
 
 	req.open('GET', url, true);
 
@@ -53,10 +55,10 @@ app.get('/wiki/:title', function(request,response) {
 			var imgs = imbed.images;
 			//console.log("TITLE:" + t);
 			//console.log("links: " + l);
-			//console.log("Text: " + txt);
+			console.log("Text: " + txt);
 			//console.log("Images: " + imgs);
 			var result = {title: t, links: l, text: txt, images: imgs};
-			console.log(result);
+			//console.log(result);
 			response.json(JSON.stringify(result));
 		}
 	}, false);
