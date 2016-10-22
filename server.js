@@ -53,13 +53,38 @@ app.get('/wiki/:title', function(request,response) {
 				var pgID = Object.keys(data.query.pages)[0];
 				var imbed = data.query.pages[Object.keys(data.query.pages)[0]];
 				var t = imbed.title;
+
 				var allLinks = imbed.links;
 				var sampleLinks = _.sample(allLinks, max);
+				var shuffledLinks = _.shuffle(allLinks);
+
+				console.log(shuffledLinks);
+
 				var l = [];
-				for (var i = 0; i<max; i++) {
-					console.log((sampleLinks[i]).title);
-					l.push((sampleLinks[i]).title);
+
+				var count = 0;
+				var i = 0;
+
+				while (count < max && count < shuffledLinks.length) {
+			
+						if (shuffledLinks[i] && shuffledLinks[i].hasOwnProperty('title')) {
+							if (!shuffledLinks[i].title.includes("(disambiguation)") && !shuffledLinks[i].title.includes("Help:")) {
+								l.push((shuffledLinks[i]).title);
+								count++;
+								console.log(l);
+							}
+							i++;
+						} else {
+							i++;
+							//console.log(i);
+						}
 				}
+				// for (var i = 0; i < max; i++) {
+				// 	if (sampleLinks[i].hasOwnProperty('title')) {
+				// 		console.log((sampleLinks[i]).title);
+				// 		l.push((sampleLinks[i]).title);
+				// 	}
+				// }
 
 				var txt = imbed.extract;
 				var imgs = "";
@@ -67,7 +92,7 @@ app.get('/wiki/:title', function(request,response) {
 				if (imbed.hasOwnProperty('thumbnail')) {
 					imgs = imbed.thumbnail.source;
 				}
-				
+
 				console.log("Links: " + l);
 				var result = {title: t, links: l, text: txt, images: imgs};
 				response.json(result);
