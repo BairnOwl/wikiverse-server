@@ -59,7 +59,7 @@ app.get('/wiki/:title', function(request,response) {
 			//console.log("Images: " + imgs);
 			var result = {title: t, links: l, text: txt, images: imgs};
 			//console.log(result);
-			response.json(JSON.stringify(result));
+			response.json(result);
 		}
 	}, false);
 
