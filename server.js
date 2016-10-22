@@ -40,7 +40,7 @@ app.get('/wiki/:title', function(request,response) {
 ////w/api.php?action=query&format=json&prop=extracts%7Clinks%7Cpageimages&
 	//base url:
 	var base = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts%7Clinks%7Cpageimages&titles=';
-	url = base + title + '&redirects=1&pllimit=500&exsentences=1&exintro=1&explaintext=1&exsectionformat=plain';
+	url = base + title + '&redirects=1&formatversion=2&plnamespace=0&pllimit=500&exsentences=1&exintro=1&explaintext=1&exsectionformat=plain';
 
 	req.open('GET', url, true);
 
@@ -54,15 +54,12 @@ app.get('/wiki/:title', function(request,response) {
 				var pgID = Object.keys(data.query.pages)[0];
 				var imbed = data.query.pages[Object.keys(data.query.pages)[0]];
 				var t = imbed.title;
-
+				var shuffledLinks;
+				if (imbed.hasOwnProperty('links')) {
 				var allLinks = imbed.links;
 				var sampleLinks = _.sample(allLinks, max);
-				var shuffledLinks = _.shuffle(allLinks);
-
-
-				//CATCH THE REDIRECT
-
-				//console.log(shuffledLinks);
+				shuffledLinks = _.shuffle(allLinks);
+				}
 
 				var l = [];
 
