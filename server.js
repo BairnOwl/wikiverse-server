@@ -45,39 +45,60 @@ app.get('/wiki/:title', function(request,response) {
 	req.open('GET', url, true);
 
 	req.addEventListener('load', function(e){
-		console.log('loaded');
 		if (req.status == 200) {
 			var data = JSON.parse(req.responseText);
+			
 			// Check if valid page
 			try {
 			if (Object.keys(data.query.pages).length != 0) {
-			var pgID = Object.keys(data.query.pages)[0];
-			var imbed = data.query.pages[Object.keys(data.query.pages)[0]];
-			var t = imbed.title;
-			var allLinks = imbed.links;
-			var sampleLinks = _.sample(allLinks, max);
-			var l = [];
-			for (var i = 0; i<max; i++) {
-				//console.log((sampleLinks[i]).title);
-				l.push((sampleLinks[i]).title);
-			}
-			var txt = imbed.extract;
-			//console.log("text: " + txt);
-			var imgs = "";
-			//check if has image
-			if (imbed.hasOwnProperty('thumbnail')) {
-				imgs = imbed.thumbnail.source;
-			}
-			console.log("Links: " + l);
-			var result = {title: t, links: l, text: txt, images: imgs};
-			response.json(JSON.stringify(result));
-		} else {
-			console.log("Page Not Found");
+				var pgID = Object.keys(data.query.pages)[0];
+				var imbed = data.query.pages[Object.keys(data.query.pages)[0]];
+				var t = imbed.title;
+
+				var allLinks = imbed.links;
+				var sampleLinks = _.sample(allLinks, max);
+				var shuffledLinks = _.shuffle(allLinks);
+
+				//console.log(shuffledLinks);
+
+				var l = [];
+
+				var count = 0;
+				var i = 0;
+
+				while (count < max && count < shuffledLinks.length) {
+			
+						if (shuffledLinks[i] && shuffledLinks[i].hasOwnProperty('title')) {
+							if (!shuffledLinks[i].title.includes("(disambiguation)") && !shuffledLinks[i].title.includes("Help:")) {
+								l.push((shuffledLinks[i]).title);
+								count++;
+								console.log(l);
+							}
+							i++;
+						} else {
+							i++;
+							//console.log(i);
+						}
+				}
+
+				var txt = imbed.extract;
+				var imgs = "";
+				//check if has image
+				if (imbed.hasOwnProperty('thumbnail')) {
+					imgs = imbed.thumbnail.source;
+				}
+
+				console.log("Links: " + l);
+				var result = {title: t, links: l, text: txt, images: imgs};
+				response.json(result);
+
+			} else {
+				console.log("Page Not Found");
+			} 
+		} catch (err) {
+				console.log("Undefined, Dun dun dun...");
 		}
-	} catch (err) {
-		console.log("Undefined!");
-	}
-	}
+		}
 	}, false);
 
 	req.send(null); 
