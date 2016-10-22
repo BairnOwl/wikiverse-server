@@ -7,7 +7,7 @@ var server = http.createServer(app);
 app.get('/wiki', function(request, response){
 	req = new XMLHttpRequest();
 
-	url = 'http://en.wikipedia.org/w/api.php?action=query&format=json&prop=links%7Cimages%7Cextracts&titles=Albert+Einstein&pllimit=500&exintro=1&explaintext=1&exsectionformat=plain';
+	url = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=links%7Cimages%7Cextracts&titles=Albert+Einstein&pllimit=500&exintro=1&explaintext=1&exsectionformat=plain';
 
 	req.open('GET', url, true);
 
