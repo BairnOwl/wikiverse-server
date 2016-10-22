@@ -34,10 +34,9 @@ app.get('/wiki/:title', function(request,response) {
 
 	var title = request.params.title;
 
-///w/api.php?action=query&format=json&prop=links%7Cextracts%7Cimages&titles=Albert+Einstein&plnamespace=0&pllimit=500&exsentences=1&exintro=1&explaintext=1&exsectionformat=plain
-
+////w/api.php?action=query&format=json&prop=extracts%7Clinks%7Cpageimages&
 	//base url:
-	var base = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=links%7Cimages%7Cextracts&titles=';
+	var base = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts%7Clinks%7Cpageimages&titles=';
 	url = base + title + '&pllimit=500&exsentences=1&exintro=1&explaintext=1&exsectionformat=plain';
 
 	req.open('GET', url, true);
@@ -52,11 +51,11 @@ app.get('/wiki/:title', function(request,response) {
 			var t = imbed.title;
 			var l = imbed.links;
 			var txt = imbed.extract;
-			var imgs = imbed.images;
+			var imgs = imbed.thumbnail.source;
 			//console.log("TITLE:" + t);
 			//console.log("links: " + l);
-			console.log("Text: " + txt);
-			//console.log("Images: " + imgs);
+			//console.log("Text: " + txt);
+			console.log("Images: " + imgs);
 			var result = {title: t, links: l, text: txt, images: imgs};
 			//console.log(result);
 			response.json(JSON.stringify(result));
