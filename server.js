@@ -42,7 +42,6 @@ app.get('/wiki/:title', function(request,response) {
 	req.open('GET', url, true);
 
 	req.addEventListener('load', function(e){
-		console.log('loaded');
 		if (req.status == 200) {
 			var data = JSON.parse(req.responseText);
 			var pgID = Object.keys(data.query.pages)[0];
@@ -52,12 +51,9 @@ app.get('/wiki/:title', function(request,response) {
 			var l = imbed.links;
 			var txt = imbed.extract;
 			var imgs = imbed.thumbnail.source;
-			//console.log("TITLE:" + t);
-			//console.log("links: " + l);
-			//console.log("Text: " + txt);
-			console.log("Images: " + imgs);
+
 			var result = {title: t, text: txt, images: imgs, links: l};
-			//console.log(result);
+
 			response.json(result);
 		}
 	}, false);
