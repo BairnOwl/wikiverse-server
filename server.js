@@ -1,5 +1,8 @@
 var express = require('express');
+var _ = require('underscore');
 var app = express();
+
+var max = 4;
 
 var http = require('http');
 var server = http.createServer(app);
@@ -50,14 +53,20 @@ app.get('/wiki/:title', function(request,response) {
 			var pgID = Object.keys(data.query.pages)[0];
 			var imbed = data.query.pages[Object.keys(data.query.pages)[0]];
 			var t = imbed.title;
-			var l = imbed.links;
+			var allLinks = imbed.links;
+			var sampleLinks = _.sample(allLinks, max);
+			var l = [];
+			for (var i = 0; i<max; i++) {
+				console.log((sampleLinks[i]).title);
+				l.push((sampleLinks[i]).title);
+			}
 			var txt = imbed.extract;
 			var imgs = "";
 			//check if has image
 			if (imbed.hasOwnProperty('thumbnail')) {
 				imgs = imbed.thumbnail.source;
 			}
-			console.log("Images: " + imgs);
+			console.log("Links: " + l);
 			var result = {title: t, links: l, text: txt, images: imgs};
 			response.json(JSON.stringify(result));
 		} else {
