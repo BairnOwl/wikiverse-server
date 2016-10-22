@@ -49,6 +49,7 @@ app.get('/wiki/:title', function(request,response) {
 		if (req.status == 200) {
 			var data = JSON.parse(req.responseText);
 			// Check if valid page
+			try {
 			if (Object.keys(data.query.pages).length != 0) {
 			var pgID = Object.keys(data.query.pages)[0];
 			var imbed = data.query.pages[Object.keys(data.query.pages)[0]];
@@ -57,10 +58,11 @@ app.get('/wiki/:title', function(request,response) {
 			var sampleLinks = _.sample(allLinks, max);
 			var l = [];
 			for (var i = 0; i<max; i++) {
-				console.log((sampleLinks[i]).title);
+				//console.log((sampleLinks[i]).title);
 				l.push((sampleLinks[i]).title);
 			}
 			var txt = imbed.extract;
+			//console.log("text: " + txt);
 			var imgs = "";
 			//check if has image
 			if (imbed.hasOwnProperty('thumbnail')) {
@@ -72,7 +74,10 @@ app.get('/wiki/:title', function(request,response) {
 		} else {
 			console.log("Page Not Found");
 		}
-		}
+	} catch (err) {
+		console.log("Undefined!");
+	}
+	}
 	}, false);
 
 	req.send(null); 
