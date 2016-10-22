@@ -72,7 +72,7 @@ app.get('/wiki/:title', function(request,response) {
 				while (count < max && count < shuffledLinks.length) {
 			
 						if (shuffledLinks[i] && shuffledLinks[i].hasOwnProperty('title')) {
-							if (!shuffledLinks[i].title.includes("(disambiguation)") && !shuffledLinks[i].title.includes("Help:")) {
+							if (!shuffledLinks[i].title.includes("(disambiguation)") && !shuffledLinks[i].title.includes("Help:") && !shuffledLinks[i].title.includes("Category:") && !shuffledLinks[i].title.includes("Template:")) {
 								l.push((shuffledLinks[i]).title);
 								count++;
 								console.log(l);
