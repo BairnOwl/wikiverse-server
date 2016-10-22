@@ -44,17 +44,26 @@ app.get('/wiki/:title', function(request,response) {
 	req.addEventListener('load', function(e){
 		if (req.status == 200) {
 			var data = JSON.parse(req.responseText);
-			var pgID = Object.keys(data.query.pages)[0];
-			var imbed = data.query.pages[Object.keys(data.query.pages)[0]];
-			//console.log(data.query.pages[Object.keys(data.query.pages)[0]]);
-			var t = imbed.title;
-			var l = imbed.links;
-			var txt = imbed.extract;
-			var imgs = imbed.thumbnail.source;
+			
+			// Check if valid page
+			if (Object.keys(data.query.pages).length != 0) {
+				var pgID = Object.keys(data.query.pages)[0];
+				var imbed = data.query.pages[Object.keys(data.query.pages)[0]];
+				var t = imbed.title;
+				var l = imbed.links;
+				var txt = imbed.extract;
+				var imgs = "";
 
-			var result = {title: t, text: txt, images: imgs, links: l};
+				//check if has image
+				if (imbed.hasOwnProperty('thumbnail')) {
+					imgs = imbed.thumbnail.source;
+				} else {
+					console.log("Page Not Found");
+				}
 
-			response.json(result);
+				var result = {title: t, text: txt, images: imgs, links: l};
+				response.json(result);
+			}
 		}
 	}, false);
 
