@@ -21,12 +21,13 @@ app.get('/wiki', function(request, response){
 	req.send(null); 
 });
 
-app.get('/query', function(request,response) {
+app.get('/wiki/:title', function(request,response) {
 	req = new XMLHttpRequest();
+
+	var title = request.param.title; 
 
 	//base url:
 	var base = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=links%7Cimages%7Cextracts&titles=';
-	var title = 'Albert Einstein';
 	url = base + title + '&pllimit=500&exintro=1&explaintext=1&exsectionformat=plain';
 
 	req.open('GET', url, true);
