@@ -44,12 +44,19 @@ app.get('/wiki/:title', function(request,response) {
 		console.log('loaded');
 		if (req.status == 200) {
 			var data = JSON.parse(req.responseText);
-			console.log(data);
-			var title = data.title;
-			var links = data.links;
-			var text = data.extract;
-			var images = data.images;
-			response.json(title, links, text, images);
+			var pgID = Object.keys(data.query.pages)[0];
+			var imbed = data.query.pages[Object.keys(data.query.pages)[0]];
+			//console.log(data.query.pages[Object.keys(data.query.pages)[0]]);
+			var t = imbed.title;
+			var l = imbed.links;
+			var txt = imbed.extract;
+			var imgs = imbed.images;
+			console.log("TITLE:" + t);
+			//console.log("links: " + l);
+			console.log("Text: " + txt);
+			console.log("Images: " + imgs);
+			var result = {responseText: data, title: t, links: l, text: txt, images: imgs};
+			response.json(JSON.stringify(result));
 		}
 	}, false);
 
