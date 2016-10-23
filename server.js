@@ -40,7 +40,7 @@ app.get('/wiki/:title', function(request,response) {
 ////w/api.php?action=query&format=json&prop=extracts%7Clinks%7Cpageimages&
 	//base url:
 	var base = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts%7Clinks%7Cpageimages&titles=';
-	url = base + title + '&redirects=1&formatversion=2&plnamespace=0&pllimit=500&exsentences=1&exintro=1&explaintext=1&exsectionformat=plain';
+	url = base + title + '&pithumbsize=500&redirects=1&formatversion=2&plnamespace=0&pllimit=500&exsentences=1&exintro=1&explaintext=1&exsectionformat=plain';
 
 	req.open('GET', url, true);
 
