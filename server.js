@@ -46,10 +46,10 @@ app.get('/wiki/:title', function(request,response) {
 
 	req.addEventListener('load', function(e){
 		if (req.status == 200) {
-			var data = JSON.parse(req.responseText);
 			
 			// Check if valid page
 			try {
+			var data = JSON.parse(req.responseText);
 			if (Object.keys(data.query.pages).length != 0) {
 				var pgID = Object.keys(data.query.pages)[0];
 				var imbed = data.query.pages[Object.keys(data.query.pages)[0]];
@@ -69,7 +69,7 @@ app.get('/wiki/:title', function(request,response) {
 				while (count < max && count < shuffledLinks.length) {
 			
 						if (shuffledLinks[i] && shuffledLinks[i].hasOwnProperty('title')) {
-							if (!shuffledLinks[i].title.includes("(disambiguation)") && !shuffledLinks[i].title.includes("Help:") && !shuffledLinks[i].title.includes("Category:") && !shuffledLinks[i].title.includes("Template:")) {
+							if (!shuffledLinks[i].title.includes("(disambiguation)")) {
 								l.push((shuffledLinks[i]).title);
 								count++;
 								console.log(l);
